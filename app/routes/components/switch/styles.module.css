@@ -1,0 +1,51 @@
+.switchContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.toggleSwitch {
+  display: inline-flex;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.toggleCheckbox {
+  display: none;
+}
+
+.toggleLabel {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  height: 18px;
+  background-color: #e5113094;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.toggleInner {
+  display: block;
+  position: absolute;
+  left: -3px;
+  top: 1px;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Toggle the switch when the checkbox is checked */
+.toggleCheckbox:checked + .toggleLabel .toggleInner {
+  transform: translateX(26px);
+}
+
+.toggleTextOff,
+.toggleTextOn {
+  padding: 0 5px;
+}
+
+/* Styling when toggled 'On' */
+.toggleCheckbox:checked + .toggleLabel {
+  background-color: #1ece5394;
+}
