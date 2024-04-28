@@ -1,0 +1,14 @@
+{{ 'albis-leasing-style.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'albis-leasing-script.js' | asset_url }}" defer="defer"></script>
+<div id="shopDomain" style="visibility: hidden;">{{ shop.domain }}</div>
+<div id="shopSecureUrl" style="visibility: hidden;">{{ shop.secure_url }}</div>
+
+<div id="root"></div>
+
+{% schema %}
+{
+  "name": "Albis Leasing",
+  "target": "section"
+}
+{% endschema %}
+
