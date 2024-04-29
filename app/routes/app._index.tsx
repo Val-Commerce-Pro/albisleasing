@@ -1,14 +1,21 @@
-import type { ActionFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
+import { Divider } from "./components/divider";
 import { ModulAktiv } from "./components/modulAktiv";
+import { ModulZugangsdaten } from "./components/modulZugangsdaten";
 import { updateOrCreateModulAktiv } from "./models/modulAktiv.server";
+import { updateOrCreateModulZugangsdaten } from "./models/modulZugangsdaten";
 import { getPluginConf } from "./models/pluginConfig.server";
 import styles from "./styles/appStyles.module.css";
 import type {
   ActionZugangsdaten,
+  ModulZugangsdatenData,
   PluginConfData,
 } from "./types/pluginConfigurator";
+import { formatData } from "./utils/formatData";
+import { getAllMethodData } from "./utils/getAlbisMethodsData";
+import { getLoaderResponse } from "./utils/getLoaderResponseObj";
 
 export const action: ActionFunction = async ({
   request,
@@ -28,21 +35,21 @@ export const action: ActionFunction = async ({
       return modulAktivData
         ? null
         : { error: "Error modulAktivData Modul Zugangsdaten" };
-    // case "zugangsdaten":
-    //   const credentials = formatData(values) as ModulZugangsdatenData;
+    case "zugangsdaten":
+      const credentials = formatData(values) as ModulZugangsdatenData;
 
-    //   const credentialsDb = await updateOrCreateModulZugangsdaten(
-    //     session.shop,
-    //     {
-    //       apiLink: credentials.apiLink,
-    //       benutzer: credentials.benutzer,
-    //       passwort: credentials.passwort,
-    //     },
-    //   );
+      const credentialsDb = await updateOrCreateModulZugangsdaten(
+        session.shop,
+        {
+          apiLink: credentials.apiLink,
+          benutzer: credentials.benutzer,
+          passwort: credentials.passwort,
+        },
+      );
 
-    //   return credentialsDb
-    //     ? null
-    //     : { error: "Error updating/Creating ModulZugangsdaten" };
+      return credentialsDb
+        ? null
+        : { error: "Error updating/Creating ModulZugangsdaten" };
     // case "einstellungen":
     //   const einstellungenData = formatData(
     //     values,
@@ -61,42 +68,102 @@ export const action: ActionFunction = async ({
   }
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader: LoaderFunction = async ({
+  request,
+}): Promise<PluginConfData> => {
   const { session } = await authenticate.admin(request);
   const pluginConfData = await getPluginConf(session.shop);
 
-  return {
-    modulAktiv: {
-      isModulAktiv: pluginConfData.isModulAktiv,
-      shop: pluginConfData.shop,
-    },
+  if (!pluginConfData)
+    return getLoaderResponse({
+      modulAktiv: {
+        isModulAktiv: false,
+        shop: session.shop,
+      },
+    });
+
+  const { ModulZugangsdaten, isModulAktiv, shop } = pluginConfData;
+
+  if (!isModulAktiv || !ModulZugangsdaten || !shop)
+    return getLoaderResponse({
+      modulAktiv: {
+        isModulAktiv: isModulAktiv ?? false,
+        shop: shop ?? session.shop,
+      },
+    });
+  const credentials = {
+    apiLink: ModulZugangsdaten.apiLink,
+    benutzer: ModulZugangsdaten.benutzer,
+    passwort: ModulZugangsdaten.passwort,
   };
+  const { zahlungsweisen, produktgruppen, vertragsarten } =
+    await getAllMethodData(credentials);
+
+  const isCredentialsValid =
+    !!zahlungsweisen.result &&
+    !!produktgruppen.result &&
+    !!vertragsarten.result;
+
+  const modulAktiv = {
+    isModulAktiv,
+    shop,
+  };
+  const modulZugangsdaten = {
+    ...credentials,
+  };
+  // const modulEinstellungen = ModulZugangsdaten?.ModulEinstellungen
+  //   ? { ...ModulZugangsdaten.ModulEinstellungen }
+  //   : undefined;
+
+  const methodsData = isCredentialsValid
+    ? {
+        zahlungsweisen: zahlungsweisen.result,
+        produktgruppen: produktgruppen.result,
+        vertragsarten: vertragsarten.result,
+      }
+    : undefined;
+
+  return getLoaderResponse({
+    modulAktiv,
+    modulZugangsdaten,
+    // modulEinstellungen,
+    isCredentialsValid,
+    methodsData,
+  });
 };
 
 export default function Index() {
   const loaderData = useLoaderData<PluginConfData>();
-  const { modulAktiv } = loaderData;
   console.log("loaderData", loaderData);
+  const { modulAktiv, modulZugangsdaten } = loaderData;
+
+  const { apiLink, benutzer, isCredentialsValid, passwort } = modulZugangsdaten;
+  const credentials = {
+    apiLink,
+    benutzer,
+    passwort,
+  };
   return (
     <div className={styles.container}>
-      {/* <div className={styles.formTitle}>
+      <div className={styles.formTitle}>
         <h1>Albis Leasing</h1>
         <p>Konfiguration</p>
       </div>
-      <Divider type="main" /> */}
+      <Divider type="main" />
       <ModulAktiv initialValue={modulAktiv.isModulAktiv} />
-      {/* {modulAktiv.isModulAktiv && (
+      {modulAktiv.isModulAktiv && (
         <ModulZugangsdaten
           initialValues={credentials}
           isCredentialsValid={isCredentialsValid}
         />
       )}
+      {/* 
       {modulAktiv.isModulAktiv && modulZugangsdaten.isCredentialsValid && (
         <ModulEinstellungen
           initialValues={modulEinstellungen as ModulEinstellungenData}
           methodsData={methodsData}
         />
-      )} */}
+      )}  */}
     </div>
   );
 }

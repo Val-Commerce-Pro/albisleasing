@@ -27,7 +27,17 @@ model Session {
 }
 
 model ModulAktiv {
-  id           Int     @id @default(autoincrement())
-  shop         String  @unique
-  isModulAktiv Boolean
+  id                Int                @id @default(autoincrement())
+  shop              String             @unique
+  isModulAktiv      Boolean
+  ModulZugangsdaten ModulZugangsdaten?
+}
+
+model ModulZugangsdaten {
+  id           Int        @id @default(autoincrement())
+  apiLink      String
+  benutzer     String
+  passwort     String
+  modulAktivId Int        @unique
+  modulAktiv   ModulAktiv @relation(fields: [modulAktivId], references: [id])
 }
