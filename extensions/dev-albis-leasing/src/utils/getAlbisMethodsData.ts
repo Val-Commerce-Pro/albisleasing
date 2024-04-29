@@ -48,7 +48,7 @@ export const getAlbisMethodsData = async (
 ) => {
   try {
     // const shop = document.getElementById("shopDomain")?.textContent;
-    const shop = "commerce-albis-leasing.myshopify.com";
+    const shop = "helge-test.myshopify.com";
     const body = JSON.stringify({
       method,
       shop,

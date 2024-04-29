@@ -3,7 +3,12 @@ import React from "react";
 type SelectProps = {
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   name: string;
-  options: Array<{ id: number | string; bezeichnung?: string, text?: string, crefo?: string }>;
+  options: Array<{
+    id: number | string;
+    bezeichnung?: string;
+    text?: string;
+    crefo?: string;
+  }>;
   label?: string;
   defaultText?: string;
   selectedValue?: string | number;
@@ -35,7 +40,9 @@ export const Select = ({
         required={required}
         className={`h-[40px] block w-full p-[6px] text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 ${hidden ? "hidden" : "visible"}`}
       >
-        <option selected disabled key={0}>{defaultText}</option>
+        <option disabled key={0}>
+          {defaultText}
+        </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.bezeichnung ? option.bezeichnung : option.text}

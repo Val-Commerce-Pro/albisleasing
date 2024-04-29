@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-// import { useGetPluginConfData } from "./hooks/useGetPluginConfData";
 import Loading from "./components/loading";
-// import { useGetCartData } from "./hooks/useGetCartData";
+import { CompanyProvider } from "./context/companyCtx";
+import { useGetCartData } from "./hooks/useGetCartData";
 import { useGetPluginConfData } from "./hooks/useGetPluginConfData";
 import AlbisLeasing from "./pages/albisLeasing";
 import { getCartData } from "./utils/shopifyAjaxApi";
 import { baseServerUrl } from "./utils/urls";
-// import { useGetCartData } from "./hooks/useGetCartData";
-// import { useGetPluginConfData } from "./hooks/useGetPluginConfData";
-import { mockCartItems } from "./mockData/mockData";
-// import { AlbisRequest } from "./pages/albisRequest";
+// import { mockCartItems } from "./mockData/mockData";
+import { AlbisRequest } from "./pages/albisRequest";
 
 function App() {
-  // const cartData = useGetCartData();
-  const cartData = mockCartItems;
+  const cartData = useGetCartData();
+  // const cartData = mockCartItems;
   const pluginConfData = useGetPluginConfData();
 
   const [test, setTest] = useState(0);
@@ -22,8 +20,9 @@ function App() {
   useEffect(() => {
     getCartData();
     const testRout = async () => {
-      // const shop = document.getElementById("shopDomain")?.textContent;
-      const shop = "commerce-albis-leasing.myshopify.com";
+      const shop = document.getElementById("shopDomain")?.textContent;
+      // const shop = "helge-test.myshopify.com";
+
       console.log("shop", shop);
       const response = await fetch(`${baseServerUrl}/api/testRoute`, {
         method: "GET",
@@ -46,7 +45,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/pages/albis-leasing" element={<h1>Test Route</h1>} /> */}
         {cartData && pluginConfData && pluginConfData?.modulAktiv ? (
           <>
             <Route
@@ -58,15 +56,17 @@ function App() {
                 />
               }
             />
-            {/* <Route
+            <Route
               path="/pages/albis-leasing-request"
               element={
-                <AlbisRequest
-                  cartData={cartData}
-                  pluginConfData={pluginConfData}
-                />
+                <CompanyProvider>
+                  <AlbisRequest
+                    cartData={cartData}
+                    pluginConfData={pluginConfData}
+                  />
+                </CompanyProvider>
               }
-            /> */}
+            />
           </>
         ) : (
           <Route path="/pages/albis-leasing" element={<Loading />} />
