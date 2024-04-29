@@ -1,0 +1,178 @@
+import { LeasingRate } from "../types/albisMethods";
+import { ShoppingCart } from "../types/cartTypes";
+
+export const mockCartItems: ShoppingCart = {
+  token: "Z2NwLXVzLWNlbnRyYWwxOjAxSFNHNDFRRzNUUjBDQUUyWEQ2Nks2RUtW",
+  currency: "EUR",
+  item_count: 7,
+  total_price: 876175,
+  items: [
+    {
+      discounted_price: 88595,
+      final_price: 88595,
+      handle: "the-videographer-snowboard",
+      id: 47831615996224,
+      image:
+        "https://cdn.shopify.com/s/files/1/0860/1423/0848/files/Main.jpg?v=1707135789",
+      key: "47831615996224:546a9f13ea72c2016cd50ec70c5b300c",
+      line_price: 88595,
+      product_id: 9051247214912,
+      product_title: "The Videographer Snowboard",
+      quantity: 1,
+      title: "The Videographer Snowboard",
+      url: "/products/the-videographer-snowboard?variant=47831615996224",
+      variant_id: 47831615996224,
+    },
+    {
+      discounted_price: 262995,
+      final_price: 262995,
+      handle: "the-3p-fulfilled-snowboard",
+      id: 47831617470784,
+      image:
+        "https://cdn.shopify.com/s/files/1/0860/1423/0848/products/Main_b9e0da7f-db89-4d41-83f0-7f417b02831d.jpg?v=1707135789",
+      key: "47831617470784:0c508c3aa09bce7ab5b43fd6ddabd42a",
+      line_price: 525990,
+      product_id: 9051248329024,
+      product_title: "The 3p Fulfilled Snowboard",
+      quantity: 2,
+      title: "The 3p Fulfilled Snowboard",
+      url: "/products/the-3p-fulfilled-snowboard?variant=47831617470784",
+      variant_id: 47831617470784,
+    },
+    {
+      discounted_price: 62995,
+      final_price: 62995,
+      handle: "the-multi-managed-snowboard",
+      id: 47831617438016,
+      image:
+        "https://cdn.shopify.com/s/files/1/0860/1423/0848/products/Main_9129b69a-0c7b-4f66-b6cf-c4222f18028a.jpg?v=1707135789",
+      key: "47831617438016:01b0549b5b07506d11393b98b42929af",
+      line_price: 62995,
+      product_id: 9051248296256,
+      product_title: "The Multi-managed Snowboard",
+      quantity: 1,
+      title: "The Multi-managed Snowboard",
+      url: "/products/the-multi-managed-snowboard?variant=47831617438016",
+      variant_id: 47831617438016,
+    },
+    {
+      discounted_price: 60000,
+      final_price: 60000,
+      handle: "the-collection-snowboard-hydrogen",
+      id: 47831616454976,
+      image:
+        "https://cdn.shopify.com/s/files/1/0860/1423/0848/products/Main_0a40b01b-5021-48c1-80d1-aa8ab4876d3d.jpg?v=1707135788",
+      key: "47831616454976:09cc0ef7f0252c646b1d9b23d95fa187",
+      line_price: 120000,
+      product_id: 9051247673664,
+      product_title: "The Collection Snowboard: Hydrogen",
+      quantity: 2,
+      title: "The Collection Snowboard: Hydrogen",
+      url: "/products/the-collection-snowboard-hydrogen?variant=47831616454976",
+      variant_id: 47831616454976,
+    },
+    {
+      discounted_price: 78595,
+      final_price: 78595,
+      handle: "the-compare-at-price-snowboard",
+      id: 47831617143104,
+      image:
+        "https://cdn.shopify.com/s/files/1/0860/1423/0848/products/snowboard_sky.png?v=1707135789",
+      key: "47831617143104:6ac0f11189b00be004c71bcc3dd8493c",
+      line_price: 78595,
+      product_id: 9051248099648,
+      product_title: "The Compare at Price Snowboard",
+      quantity: 1,
+      title: "The Compare at Price Snowboard",
+      url: "/products/the-compare-at-price-snowboard?variant=47831617143104",
+      variant_id: 47831617143104,
+    },
+  ],
+};
+
+export const mockLeasingRate: LeasingRate = {
+  id: 1,
+  jsonrpc: "2.0",
+  result: {
+    kaufpreis: 2099.9,
+    prodgrp: 2,
+    mietsz: 0,
+    vertragsart: 1,
+    zahlweise: 1,
+    provision: 5,
+    kuendmonat: 30,
+    raten: [
+      {
+        laufzeit: 24,
+        rate: 101.65,
+        versicherung: 0,
+      },
+      {
+        laufzeit: 36,
+        rate: 71.66,
+        versicherung: 0,
+        schlusszahlung: 427.34,
+      },
+      {
+        laufzeit: 42,
+        rate: 63.28,
+        versicherung: 0,
+        schlusszahlung: 749.41,
+      },
+      {
+        laufzeit: 48,
+        rate: 56.89,
+        versicherung: 0,
+        schlusszahlung: 1003.33,
+      },
+      {
+        laufzeit: 54,
+        rate: 52.04,
+        versicherung: 0,
+        schlusszahlung: 1214.99,
+      },
+      {
+        laufzeit: 60,
+        rate: 48.07,
+        versicherung: 0,
+        schlusszahlung: 1392.78,
+      },
+    ],
+  },
+};
+
+export const mockAntragsdaten = {
+  objekt: "", // same as producktgruppen
+  kaufpreis: "769.00",
+  mietsz: "200.00",
+  laufzeit: "24",
+  rate: "26.23",
+  leasingnehmer: {
+    name: "test",
+    strasse: "test strasse",
+    plz: "20202",
+    ort: "Hamburg",
+    rechtsform: "1",
+    telefon: "15231111111",
+    email: "vf@commerce-pro.de",
+    geschaeftsfuehrer: {
+      anrede: "1",
+      vorname: "test name",
+      nachname: "test nach name",
+      strasse: "test strasse",
+      plz: "20202",
+      ort: "Hamburg",
+      gebdat: "1993-01-22",
+      telnr: "15231111111",
+    },
+  },
+  provision: "5",
+  ssv: "Ja",
+  prodgrp: "1",
+  vertragsart: "1",
+  zahlweise: "1",
+  iban: "DE02120300000000202051",
+  service_pauschale: 10,
+  vertrag_an_ln: false,
+};
+export type MockAntragsdaten = typeof mockAntragsdaten;

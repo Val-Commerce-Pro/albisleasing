@@ -38,7 +38,7 @@ export type ResponseError = {
   code: number;
   data: string;
   message: string;
-}
+};
 
 export interface GetStelleAntrag {
   id: number;
