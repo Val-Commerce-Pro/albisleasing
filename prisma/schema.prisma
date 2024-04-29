@@ -34,10 +34,34 @@ model ModulAktiv {
 }
 
 model ModulZugangsdaten {
-  id           Int        @id @default(autoincrement())
-  apiLink      String
-  benutzer     String
-  passwort     String
-  modulAktivId Int        @unique
-  modulAktiv   ModulAktiv @relation(fields: [modulAktivId], references: [id])
+  id                 Int                 @id @default(autoincrement())
+  apiLink            String
+  benutzer           String
+  passwort           String
+  modulAktivId       Int                 @unique
+  modulAktiv         ModulAktiv          @relation(fields: [modulAktivId], references: [id])
+  ModulEinstellungen ModulEinstellungen?
+}
+
+model ModulEinstellungen {
+  id                                 Int               @id @default(autoincrement())
+  vertragsart                        String
+  restwertInBeiTAVertrag             Boolean?
+  produktgruppe                      String
+  produktgruppeLabel                 String
+  zahlungsweisen                     String
+  auswahlZahlungsweiseAnzeigen       Boolean
+  minLeasingsumme                    String
+  servicePauschaleNetto              String
+  albisServiceGebuhrNetto            String
+  provisionsangabe                   String
+  objektVersicherung                 Boolean
+  auswahlObjektVersicherungAnzeigen  Boolean
+  mietsonderzahlung                  String
+  eingabeSonderzahlungErmoglichen    Boolean
+  pInfoseiteZeigeAlle                Boolean
+  antragOhneArtikelMoglich           Boolean
+  kundeKannFinanzierungsbetragAndern Boolean
+  zugangsdatenId                     Int               @unique
+  zugangsdaten                       ModulZugangsdaten @relation(fields: [zugangsdatenId], references: [id])
 }

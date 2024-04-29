@@ -4,15 +4,12 @@ export async function getPluginConf(shop: string) {
   const pluginConfData = await db.modulAktiv.findUnique({
     where: { shop },
     include: {
-      ModulZugangsdaten: true,
+      ModulZugangsdaten: {
+        include: {
+          ModulEinstellungen: true,
+        },
+      },
     },
-    // include: {
-    //   ModulZugangsdaten: {
-    //     include: {
-    //       ModulEinstellungen: true,
-    //     },
-    //   },
-    // },
   });
 
   return { ...pluginConfData };
@@ -22,35 +19,32 @@ export async function getPluginConfToFrontStore(shop: string) {
   const pluginConfData = await db.modulAktiv.findUnique({
     where: { shop },
     include: {
-      ModulZugangsdaten: true,
+      ModulZugangsdaten: {
+        include: {
+          ModulEinstellungen: true,
+        },
+      },
     },
-    // include: {
-    //   ModulZugangsdaten: {
-    //     include: {
-    //       ModulEinstellungen: true,
-    //     },
-    //   },
-    // },
   });
   if (
     !pluginConfData ||
-    !pluginConfData.ModulZugangsdaten
-    // !pluginConfData?.ModulZugangsdaten?.ModulEinstellungen
+    !pluginConfData.ModulZugangsdaten ||
+    !pluginConfData?.ModulZugangsdaten?.ModulEinstellungen
   )
     return;
   const {
     isModulAktiv,
-    // ModulZugangsdaten: { ModulEinstellungen },
+    ModulZugangsdaten: { ModulEinstellungen },
   } = pluginConfData;
-  // const { id, zugangsdatenId, ...einstellungenRest } = ModulEinstellungen;
+  const { id, zugangsdatenId, ...einstellungenRest } = ModulEinstellungen;
 
   const dataToFrontStore = {
     modulAktiv: {
       isModulAktiv: isModulAktiv,
     },
-    // modulEinstellungen: {
-    //   ...einstellungenRest,
-    // },
+    modulEinstellungen: {
+      ...einstellungenRest,
+    },
   };
 
   return { ...dataToFrontStore };

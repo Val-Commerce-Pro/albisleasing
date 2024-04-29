@@ -1,6 +1,6 @@
 import type {
   ModulAktiv,
-  // ModulEinstellungen,
+  ModulEinstellungen,
   ModulZugangsdaten,
 } from "@prisma/client";
 import type {
@@ -16,10 +16,10 @@ export type ModulZugangsdatenData = Omit<
   "id" | "modulAktivId"
 >;
 
-// export type ModulEinstellungenData = Omit<
-//   ModulEinstellungen,
-//   "id" | "zugangsdatenId"
-// >;
+export type ModulEinstellungenData = Omit<
+  ModulEinstellungen,
+  "id" | "zugangsdatenId"
+>;
 
 export type ModulZugangsdatenPlugin = {
   isCredentialsValid: boolean;
@@ -28,7 +28,7 @@ export type ModulZugangsdatenPlugin = {
 export type PluginConfData = {
   modulAktiv: ModulAktivData;
   modulZugangsdaten: ModulZugangsdatenPlugin;
-  // modulEinstellungen: ModulEinstellungenData;
+  modulEinstellungen: ModulEinstellungenData;
   methodsData?: {
     zahlungsweisen: ResultZahlungsweisen[];
     produktgruppen: ResultProduktgruppen[];

@@ -1,15 +1,21 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+
 import { authenticate } from "../shopify.server";
+
 import { Divider } from "./components/divider";
 import { ModulAktiv } from "./components/modulAktiv";
+import { ModulEinstellungen } from "./components/modulEinstellungen";
 import { ModulZugangsdaten } from "./components/modulZugangsdaten";
-import { updateOrCreateModulAktiv } from "./models/modulAktiv.server";
 import { updateOrCreateModulZugangsdaten } from "./models/modulZugangsdaten";
-import { getPluginConf } from "./models/pluginConfig.server";
 import styles from "./styles/appStyles.module.css";
+
+import { updateOrCreateModulAktiv } from "./models/modulAktiv.server";
+import { updateOrCreateModulEinstellungen } from "./models/modulEinstellungen";
+import { getPluginConf } from "./models/pluginConfig.server";
 import type {
   ActionZugangsdaten,
+  ModulEinstellungenData,
   ModulZugangsdatenData,
   PluginConfData,
 } from "./types/pluginConfigurator";
@@ -50,19 +56,19 @@ export const action: ActionFunction = async ({
       return credentialsDb
         ? null
         : { error: "Error updating/Creating ModulZugangsdaten" };
-    // case "einstellungen":
-    //   const einstellungenData = formatData(
-    //     values,
-    //     true,
-    //   ) as ModulEinstellungenData;
+    case "einstellungen":
+      const einstellungenData = formatData(
+        values,
+        true,
+      ) as ModulEinstellungenData;
 
-    //   const updatedEinstellungenData = await updateOrCreateModulEinstellungen(
-    //     session.shop,
-    //     einstellungenData,
-    //   );
-    //   return updatedEinstellungenData
-    //     ? null
-    //     : { error: "Error updating/Creating ModulEinstellungen" };
+      const updatedEinstellungenData = await updateOrCreateModulEinstellungen(
+        session.shop,
+        einstellungenData,
+      );
+      return updatedEinstellungenData
+        ? null
+        : { error: "Error updating/Creating ModulEinstellungen" };
     default:
       return null;
   }
@@ -111,9 +117,9 @@ export const loader: LoaderFunction = async ({
   const modulZugangsdaten = {
     ...credentials,
   };
-  // const modulEinstellungen = ModulZugangsdaten?.ModulEinstellungen
-  //   ? { ...ModulZugangsdaten.ModulEinstellungen }
-  //   : undefined;
+  const modulEinstellungen = ModulZugangsdaten?.ModulEinstellungen
+    ? { ...ModulZugangsdaten.ModulEinstellungen }
+    : undefined;
 
   const methodsData = isCredentialsValid
     ? {
@@ -126,7 +132,7 @@ export const loader: LoaderFunction = async ({
   return getLoaderResponse({
     modulAktiv,
     modulZugangsdaten,
-    // modulEinstellungen,
+    modulEinstellungen,
     isCredentialsValid,
     methodsData,
   });
@@ -134,8 +140,9 @@ export const loader: LoaderFunction = async ({
 
 export default function Index() {
   const loaderData = useLoaderData<PluginConfData>();
+  const { modulAktiv, modulEinstellungen, modulZugangsdaten, methodsData } =
+    loaderData;
   console.log("loaderData", loaderData);
-  const { modulAktiv, modulZugangsdaten } = loaderData;
 
   const { apiLink, benutzer, isCredentialsValid, passwort } = modulZugangsdaten;
   const credentials = {
@@ -143,6 +150,7 @@ export default function Index() {
     benutzer,
     passwort,
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.formTitle}>
@@ -157,13 +165,12 @@ export default function Index() {
           isCredentialsValid={isCredentialsValid}
         />
       )}
-      {/* 
       {modulAktiv.isModulAktiv && modulZugangsdaten.isCredentialsValid && (
         <ModulEinstellungen
           initialValues={modulEinstellungen as ModulEinstellungenData}
           methodsData={methodsData}
         />
-      )}  */}
+      )}
     </div>
   );
 }
