@@ -62,7 +62,6 @@ export const AlbisRequest = ({
   ) => {
     event.preventDefault();
     setIsLoading(true);
-
     const localStorageData = localStorage.getItem("cp@albisLeasing");
     const localStorageJSON: LocalStorageI = JSON.parse(
       localStorageData ?? initialStorageState.toString(),
@@ -189,7 +188,6 @@ export const AlbisRequest = ({
               Zurück
             </button>
           </div>
-          {/* {isModalOpen && <Popup isOpen={isModalOpen} onClose={closeModal} />} */}
           {isModalOpen && (
             <Modal
               onClose={closeModal}

@@ -77,6 +77,6 @@ export async function createDraftOrder(shop: string, input: DraftOrderInput) {
       },
     },
   );
-
+  console.log("DRAFT order FULL RESPONSE ", response);
   return response;
 }

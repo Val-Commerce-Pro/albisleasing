@@ -133,9 +133,10 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-
+    console.log("draftOrderResponse", draftOrderResponse);
     const { data: draftOrderData }: { data?: DraftOrderResponse } =
       draftOrderResponse;
+    console.log("draftOrderData", data);
     const completeOrderResponse = await completeDraftOrder(
       shop,
       draftOrderData?.draftOrderCreate.draftOrder.id,
