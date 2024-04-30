@@ -10,7 +10,6 @@ import { TextField } from "../textfield";
 export const SectionCompanyManager = () => {
   const { state, updateManagerInfo } = useCompanyContext();
   const { managerInfo } = state;
-  console.log("state at SectionCompanyManager", state);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

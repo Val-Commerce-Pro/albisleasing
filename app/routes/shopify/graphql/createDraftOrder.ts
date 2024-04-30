@@ -51,8 +51,6 @@ export async function createDraftOrder(shop: string, input: DraftOrderInput) {
     {
       variables: {
         input: {
-          customerId:
-            input.customerId && `gid://shopify/Customer/${input.customerId}`,
           note: input.note,
           email: input.email,
           taxExempt: true,
@@ -77,6 +75,5 @@ export async function createDraftOrder(shop: string, input: DraftOrderInput) {
       },
     },
   );
-  console.log("DRAFT order FULL RESPONSE ", response);
   return response;
 }

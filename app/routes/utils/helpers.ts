@@ -29,7 +29,6 @@ export function getCurrentFormattedTime(): string {
     timeZone: "Europe/Berlin",
   });
   const formattedDate = formatter.format(date);
-  console.log("formattedDate with timeZone Europe/Berlin:", formattedDate);
   return formattedDate;
 }
 

@@ -73,8 +73,6 @@ export const action: ActionFunction = async ({ request }) => {
 
     const { result } = newAntragDetails;
 
-    console.log("new getAntragDetailsData", newAntragDetails);
-
     const antragnrDetails: AntragDetailsData = {
       antragnr: result.antragnr,
       kaufpreis: result.kaufpreis,
@@ -124,7 +122,6 @@ export const action: ActionFunction = async ({ request }) => {
       customAttributes: [{ key: "name", value: result.gf_nname }],
       lineItems: lineItems,
     };
-    console.log("input createDraftOrder", input);
     const draftOrderResponse = await createDraftOrder(shop, input);
     if (!draftOrderResponse) {
       return json(draftOrderResponse, {
@@ -133,10 +130,8 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-    console.log("draftOrderResponse", draftOrderResponse);
     const { data: draftOrderData }: { data?: DraftOrderResponse } =
       draftOrderResponse;
-    console.log("draftOrderData", data);
     const completeOrderResponse = await completeDraftOrder(
       shop,
       draftOrderData?.draftOrderCreate.draftOrder.id,

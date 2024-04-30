@@ -142,7 +142,7 @@ export default function Index() {
   const loaderData = useLoaderData<PluginConfData>();
   const { modulAktiv, modulEinstellungen, modulZugangsdaten, methodsData } =
     loaderData;
-  console.log("loaderData", loaderData);
+  // console.log("loaderData", loaderData);
 
   const { apiLink, benutzer, isCredentialsValid, passwort } = modulZugangsdaten;
   const credentials = {

@@ -12,7 +12,6 @@ export const SectionInfoCompany = () => {
   const [rechtsformen, setRechtsformen] = useState<Rechtsformen | undefined>();
   const { state, updateCompanyInfo } = useCompanyContext();
   const { companyInfo } = state;
-  console.log("SectionInfoCompany state", state);
 
   useEffect(() => {
     const fetchRechtsformen = async () => {

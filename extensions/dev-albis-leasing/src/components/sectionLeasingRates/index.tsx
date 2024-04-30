@@ -44,7 +44,6 @@ export const SectionLeasingRates = ({
 
     navigate(`/pages/albis-leasing-request`);
   };
-  console.log("calcFormData", calcFormData);
   const leasingValueData = leasingValue
     ? leasingValue.toFixed(2)
     : calcFormData.finanzierungsbetragNetto;

@@ -23,6 +23,10 @@ export async function completeDraftOrder(shop: string, draftOrderId?: string) {
       },
     },
   );
-  console.log("Complete draft order FULL RESPONSE ", response);
+  console.log(" response.data", response.data);
+  console.log(
+    "Complete draft order FULL RESPONSE response.data.draftOrderComplete.draftOrder",
+    response.data.draftOrderComplete.draftOrder,
+  );
   return response;
 }
