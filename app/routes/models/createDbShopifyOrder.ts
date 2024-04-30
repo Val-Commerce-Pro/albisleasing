@@ -3,7 +3,7 @@ import db from "../../db.server";
 
 export async function createDbShopifyOrder(
   antragnr: AntragDetails["antragnr"],
-  orders: Pick<ShopifyOrders, "draftOrderId" | "orderId">,
+  orders: Pick<ShopifyOrders, "draftOrderId" | "orderId" | "orderName">,
 ) {
   try {
     const dbShopifyOrdersData = await db.shopifyOrders.create({

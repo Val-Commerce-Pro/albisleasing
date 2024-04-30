@@ -31,6 +31,7 @@ type CompleteDraftOrderResponse = {
       id: string;
       order: {
         id: string;
+        name: string;
       };
     };
   };
@@ -144,6 +145,8 @@ export const action: ActionFunction = async ({ request }) => {
       draftOrderId: draftOrderData?.draftOrderCreate.draftOrder.id ?? "",
       orderId:
         CompleteDraftOrderData?.draftOrderComplete.draftOrder.order.id ?? "",
+      orderName:
+        CompleteDraftOrderData?.draftOrderComplete.draftOrder.order.name ?? "",
     });
 
     // scheduleAntragCheck(antragnrData, shop);
