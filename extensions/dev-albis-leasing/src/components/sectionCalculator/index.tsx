@@ -1,81 +1,60 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { GetZahlungsweisen } from "../../types/albisMethods";
-import { ShoppingCart } from "../../types/cartTypes";
 import { CalcData } from "../../types/localStorage";
 import { PluginConfig } from "../../types/pluginConfig";
-import { getAlbisMethodsData } from "../../utils/getAlbisMethodsData";
 import { Box } from "../box";
 import { Select } from "../select";
 import { TextField } from "../textfield";
 
 type SectionCalculatorProps = {
-  finanzierungsbetragNetto: ShoppingCart["total_price"];
+  calcFormData: CalcData;
   auswahlZahlungsweiseAnzeigen: PluginConfig["modulEinstellungen"]["auswahlZahlungsweiseAnzeigen"];
   auswahlObjektVersicherungAnzeigen: PluginConfig["modulEinstellungen"]["auswahlObjektVersicherungAnzeigen"];
   kundeKannFinanzierungsbetragAndern: PluginConfig["modulEinstellungen"]["kundeKannFinanzierungsbetragAndern"];
-  zahlungsweisenPlugin: PluginConfig["modulEinstellungen"]["zahlungsweisen"];
   handleGetRate: (calcData: CalcData) => Promise<void>;
+  updateCalcFormData: (calcFormData: Partial<CalcData>) => void;
+  zahlungsweisen?: GetZahlungsweisen;
 };
 
 export const SectionCalculator = ({
   auswahlObjektVersicherungAnzeigen,
   auswahlZahlungsweiseAnzeigen,
-  finanzierungsbetragNetto,
   kundeKannFinanzierungsbetragAndern,
-  zahlungsweisenPlugin,
+  calcFormData,
   handleGetRate,
+  updateCalcFormData,
+  zahlungsweisen,
 }: SectionCalculatorProps) => {
-  const [formData, setFormData] = useState<CalcData>({
-    objektVersicherungVorhanden: "nein",
-    finanzierungsbetragNetto: finanzierungsbetragNetto.toString(),
-    anzahlung: "0",
-    zahlungsweise: `${zahlungsweisenPlugin}`,
-  });
-
-  const [zahlungsweisen, setZahlungsweisen] = useState<
-    GetZahlungsweisen | undefined
-  >();
-
   useEffect(() => {
     handleSave();
-    const getAlbisData = async () => {
-      const zahlungsweisenData: GetZahlungsweisen =
-        await getAlbisMethodsData("getZahlungsweisen");
-      setZahlungsweisen(zahlungsweisenData);
-    };
-    getAlbisData();
   }, []);
 
-  function handleOnChange(
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) {
+  function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    updateCalcFormData({ [name]: value });
   }
+  const handleSelectOnChange = (e: ChangeEvent<HTMLSelectElement>): void => {
+    const { name, value } = e.target;
+    if (name === "zahlungsweise") {
+      const label = e.target.options[e.target.selectedIndex].text;
+      updateCalcFormData({
+        [name]: value,
+        zahlungsweiseLabel: label,
+      });
+      return;
+    }
+    updateCalcFormData({ [name]: value });
+  };
 
   function handleSave() {
     const formattedCalcData: CalcData = {
-      ...formData,
-      finanzierungsbetragNetto: formData.finanzierungsbetragNetto.replace(
+      ...calcFormData,
+      finanzierungsbetragNetto: calcFormData.finanzierungsbetragNetto.replace(
         /[^\d]/g,
         "",
       ),
-      anzahlung: formData.anzahlung.replace(/[^\d]/g, ""),
+      anzahlung: calcFormData.anzahlung.replace(/[^\d]/g, ""),
     };
-    const dataFromLocalStorageAsString =
-      localStorage.getItem("cp@albisLeasing");
-    const dataFromLocalStorage = dataFromLocalStorageAsString
-      ? JSON.parse(dataFromLocalStorageAsString)
-      : {};
-
-    const dataToLocalStorage = {
-      ...dataFromLocalStorage,
-      calcData: {
-        ...formattedCalcData,
-      },
-    };
-    console.log("dataToLocalStorage", dataToLocalStorage);
-    localStorage.setItem("cp@albisLeasing", JSON.stringify(dataToLocalStorage));
     handleGetRate(formattedCalcData);
   }
 
@@ -88,10 +67,10 @@ export const SectionCalculator = ({
     >
       <div className="w-full h-full flex flex-col gap-[16px] p-[12px] overflow-x-auto shadow-md rounded-b-lg">
         <Select
-          handleChange={handleOnChange}
+          handleChange={handleSelectOnChange}
           name="objektVersicherungVorhanden"
           label="Objekt-Versicherung vorhanden:"
-          selectedValue={formData.objektVersicherungVorhanden}
+          selectedValue={calcFormData.objektVersicherungVorhanden}
           options={[
             { id: "ja", bezeichnung: "Ja" },
             { id: "nein", bezeichnung: "Nein" },
@@ -105,7 +84,7 @@ export const SectionCalculator = ({
           handleOnChange={handleOnChange}
           handleOnBlur={handleSave}
           handleKeyDown={handleSave}
-          textFieldValue={formData.finanzierungsbetragNetto}
+          textFieldValue={calcFormData.finanzierungsbetragNetto}
           disabled={!kundeKannFinanzierungsbetragAndern}
         />
         <TextField
@@ -115,14 +94,14 @@ export const SectionCalculator = ({
           handleOnChange={handleOnChange}
           handleOnBlur={handleSave}
           handleKeyDown={handleSave}
-          textFieldValue={formData.anzahlung}
+          textFieldValue={calcFormData.anzahlung}
         />
         {zahlungsweisen && (
           <Select
-            handleChange={handleOnChange}
+            handleChange={handleSelectOnChange}
             name="zahlungsweise"
             label="Zahlungsweise:"
-            selectedValue={zahlungsweisenPlugin}
+            selectedValue={calcFormData.anzahlung}
             options={zahlungsweisen.result}
             disabled={!auswahlZahlungsweiseAnzeigen}
           />

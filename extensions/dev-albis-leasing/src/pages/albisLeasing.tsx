@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import Loading from "../components/loading";
 import { PageTitle } from "../components/pagetitle";
 import { SectionCalculator } from "../components/sectionCalculator";
 import { SectionCartItems } from "../components/sectionCartItems";
 import { SectionLeasingRates } from "../components/sectionLeasingRates";
 import { Snackbar } from "../components/snackbar";
-import { JsonRpcErrorResponse, LeasingRate } from "../types/albisMethods";
+import {
+  GetZahlungsweisen,
+  JsonRpcErrorResponse,
+  LeasingRate,
+} from "../types/albisMethods";
 import { ShoppingCart, ShoppingCartItem } from "../types/cartTypes";
-import { CalcData, LocalStorageI } from "../types/localStorage";
+import { CalcData } from "../types/localStorage";
 import { PluginConfig } from "../types/pluginConfig";
 import {
   formatDecimalNumber,
@@ -30,43 +35,40 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
   const { total_price } = cartData;
   const [leasingRate, setLeasingRate] = useState<LeasingRate | undefined>();
   const [errorMsg, setErrorMsg] = useState("");
+  const [zahlungsweisen, setZahlungsweisen] = useState<
+    GetZahlungsweisen | undefined
+  >();
+  const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
+
+  const [calcFormData, setCalcFormData] = useState<CalcData>({
+    objektVersicherungVorhanden: "nein",
+    finanzierungsbetragNetto: total_price.toString(),
+    anzahlung: "0",
+    zahlungsweise: `${modulEinstellungen.zahlungsweisen}`,
+    zahlungsweiseLabel: "",
+  });
+
+  const handleUpdateCalcFormData = (updatedInfo: Partial<CalcData>): void => {
+    setCalcFormData((prev) => ({ ...prev, ...updatedInfo }));
+  };
 
   useEffect(() => {
-    const storageDataAsString = localStorage.getItem("cp@albisLeasing");
-    const stateInitialData: LocalStorageI =
-      storageDataAsString &&
-      Object.keys(storageDataAsString).length > 1 &&
-      JSON.parse(storageDataAsString);
-
-    const getAlbisData = async () => {
-      const werte = {
-        kaufpreis: formatDecimalNumber(
-          stateInitialData
-            ? stateInitialData.calcData.finanzierungsbetragNetto
-            : total_price,
-        ),
-        prodgrp: modulEinstellungen.produktgruppe,
-        mietsz: "0",
-        vertragsart: modulEinstellungen.vertragsart,
-        zahlweise: stateInitialData
-          ? stateInitialData.calcData.zahlungsweise
-          : modulEinstellungen.zahlungsweisen,
-        provision: modulEinstellungen.provisionsangabe,
-      };
-
-      const leasingRateData: LeasingRate | JsonRpcErrorResponse =
-        await getAlbisMethodsData("getRate", werte);
-
-      if (isJsonRpcErrorResponse(leasingRateData)) {
-        setErrorMsg(leasingRateData.error.message);
-      } else {
-        setLeasingRate(leasingRateData);
-      }
+    const getZahlungsweisen = async () => {
+      const zahlungsweisenData: GetZahlungsweisen =
+        await getAlbisMethodsData("getZahlungsweisen");
+      setZahlungsweisen(zahlungsweisenData);
+      const zahlungsweiseLabel =
+        modulEinstellungen.zahlungsweisen === "1"
+          ? zahlungsweisenData.result[0].bezeichnung
+          : zahlungsweisenData.result[1].bezeichnung;
+      setCalcFormData((prev) => ({
+        ...prev,
+        zahlungsweiseLabel,
+      }));
+      handleGetRate({ ...calcFormData, zahlungsweiseLabel });
     };
-    getAlbisData();
-  }, [modulEinstellungen, total_price]);
-
-  const [cartItems, setCartItems] = useState<ShoppingCart>(cartData);
+    getZahlungsweisen();
+  }, []);
 
   const handleUpdateItemQuantity = async (
     item: ShoppingCartItem,
@@ -189,16 +191,20 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
         />
         <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-[8px] mt-[20px]">
           <div className="order-2 lg:order-1">
-            {leasingRate && (
+            {leasingRate ? (
               <SectionLeasingRates
+                calcFormData={calcFormData}
                 leasingValue={leasingRate?.result.kaufpreis}
                 leasingRate={leasingRate?.result.raten}
               />
+            ) : (
+              <Loading />
             )}
           </div>
           <div className="order-1 lg:order-2">
             <SectionCalculator
-              finanzierungsbetragNetto={total_price}
+              updateCalcFormData={handleUpdateCalcFormData}
+              calcFormData={calcFormData}
               auswahlObjektVersicherungAnzeigen={
                 modulEinstellungen.auswahlObjektVersicherungAnzeigen
               }
@@ -208,8 +214,8 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
               kundeKannFinanzierungsbetragAndern={
                 modulEinstellungen.kundeKannFinanzierungsbetragAndern
               }
-              zahlungsweisenPlugin={modulEinstellungen.zahlungsweisen}
               handleGetRate={handleGetRate}
+              zahlungsweisen={zahlungsweisen}
             />
           </div>
         </div>

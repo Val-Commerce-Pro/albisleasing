@@ -5,6 +5,7 @@ export type CalcData = {
   finanzierungsbetragNetto: string;
   anzahlung: string;
   zahlungsweise: string;
+  zahlungsweiseLabel: string;
 };
 
 export type CompanyManagerInfoData = {
@@ -43,6 +44,7 @@ export const initialStorageState: LocalStorageI = {
     finanzierungsbetragNetto: "",
     anzahlung: "",
     zahlungsweise: "",
+    zahlungsweiseLabel: "",
   },
   leasingRate: {
     laufzeit: 0,

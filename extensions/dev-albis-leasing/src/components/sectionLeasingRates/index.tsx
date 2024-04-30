@@ -1,25 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { LeasingRate, Rate } from "../../types/albisMethods";
 import { ShoppingCart } from "../../types/cartTypes";
-import { LocalStorageI } from "../../types/localStorage";
-import { formatDecimalNumber } from "../../utils/formatValues";
+import { CalcData } from "../../types/localStorage";
 import { Box } from "../box";
 
 type SectionLeasingRatesProps = {
   leasingValue?: ShoppingCart["total_price"];
   leasingRate?: LeasingRate["result"]["raten"];
+  calcFormData: CalcData;
 };
 
 export const SectionLeasingRates = ({
   leasingRate,
   leasingValue,
+  calcFormData,
 }: SectionLeasingRatesProps) => {
-  const storageDataAsString = localStorage.getItem("cp@albisLeasing");
-  const stateInitialData: LocalStorageI =
-    storageDataAsString &&
-    Object.keys(storageDataAsString).length > 1 &&
-    JSON.parse(storageDataAsString);
-
   const tableHeaders = [
     "Vertragslaufzeit",
     "Monatliche Rate",
@@ -38,6 +33,9 @@ export const SectionLeasingRates = ({
 
     const dataToLocalStorage = {
       ...dataFromLocalStorage,
+      calcData: {
+        ...calcFormData,
+      },
       leasingRate: {
         ...itemRate,
       },
@@ -46,15 +44,12 @@ export const SectionLeasingRates = ({
 
     navigate(`/pages/albis-leasing-request`);
   };
-
-  const leasingValueData =
-    leasingValue &&
-    formatDecimalNumber(
-      stateInitialData
-        ? stateInitialData.calcData.finanzierungsbetragNetto
-        : leasingValue,
-    );
-
+  console.log("calcFormData", calcFormData);
+  const leasingValueData = leasingValue
+    ? leasingValue.toFixed(2)
+    : calcFormData.finanzierungsbetragNetto;
+  //todo
+  // handle error on calcualtor
   return (
     <Box
       title={`Leasingraten (Finanzierungsbetrag: ${leasingValueData} €)`}
