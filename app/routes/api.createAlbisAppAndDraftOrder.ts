@@ -1,7 +1,7 @@
 import type { AntragDetails } from "@prisma/client";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-// import { scheduleAntragCheck } from "./cronJobs";
+import { scheduleAntragCheck } from "../cronJobs";
 import { createAntragDetails } from "./models/antragDetails";
 import { createDbShopifyOrder } from "./models/createDbShopifyOrder";
 import type { AntragDetailsData } from "./models/types";
@@ -149,7 +149,7 @@ export const action: ActionFunction = async ({ request }) => {
         CompleteDraftOrderData?.draftOrderComplete.draftOrder.order.name ?? "",
     });
 
-    // scheduleAntragCheck(antragnrData, shop);
+    scheduleAntragCheck(antragnrData, shop);
 
     return json(newAntragDetails, {
       headers: {
