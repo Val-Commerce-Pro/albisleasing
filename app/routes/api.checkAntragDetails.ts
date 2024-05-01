@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
     const shopifyOrders = await getShopifyOrders(antragnrData.antragnr);
     if (!shopifyOrders) {
       return new Response("Error processing shopify Orders Data", {
-        status: 500,
+        status: 404,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
@@ -90,7 +90,7 @@ export const action: ActionFunction = async ({ request }) => {
     });
     if (!updatedAntragData) {
       return new Response("Error processing updated Antrag Data", {
-        status: 500,
+        status: 400,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
@@ -101,26 +101,23 @@ export const action: ActionFunction = async ({ request }) => {
 
     switch (statusData.action) {
       case "Cancel":
-        const cancellingOrder = await cancelOrder(shop, shopifyOrders.orderId, {
+        await cancelOrder(shop, shopifyOrders.orderId, {
           notifyCustomer: true,
           reason: "OTHER",
           refund: false,
           restock: true,
         });
-        console.log("cancelledOrder", cancellingOrder);
         break;
       case "Paid":
-        const paidOrder = await orderMarkAsPaid(shop, shopifyOrders.orderId);
-        console.log("orderMarkAsPaid", paidOrder);
+        await orderMarkAsPaid(shop, shopifyOrders.orderId);
         break;
       case "Refund":
-        const refundedOrder = await cancelOrder(shop, shopifyOrders.orderId, {
+        await cancelOrder(shop, shopifyOrders.orderId, {
           notifyCustomer: true,
           reason: "OTHER",
           refund: true,
           restock: true,
         });
-        console.log("refundedOrder", refundedOrder);
         break;
 
       default:

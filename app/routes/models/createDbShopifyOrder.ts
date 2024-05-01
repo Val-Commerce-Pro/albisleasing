@@ -10,6 +10,7 @@ export async function createDbShopifyOrder(
       data: {
         orderId: orders.orderId,
         draftOrderId: orders.draftOrderId,
+        orderName: orders.orderName,
         antragDetails: {
           connect: { antragnr },
         },
