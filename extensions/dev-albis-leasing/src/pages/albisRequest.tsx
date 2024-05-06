@@ -125,13 +125,8 @@ export const AlbisRequest = ({
     } else {
       setCreateAlbisApp({
         responseSuccess: true,
-        responseText:
-          "Deine Leasing Anfrage an Albis wurde erfolgreich versendet! Weitere Informationen erhalten Sie per Mail",
+        responseText: `Deine Leasing Anfrage an Albis wurde erfolgreich versendet!\n\nWeitere Informationen erhalten Sie per Mail`,
       });
-
-      //clear cart, clear localhost
-      // localStorage.clear();
-      // resetForm();
     }
   };
 

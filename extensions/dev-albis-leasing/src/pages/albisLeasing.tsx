@@ -140,48 +140,50 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
 
   return (
     <>
-      <button onClick={handleFakeClick} className="p-4 border-2">
-        FAKE
-      </button>
-      <button onClick={handleClearClick} className="p-4 border-2">
-        CLEAR CART
-      </button>
-      <form>
-        <input
-          type="text"
-          placeholder="antragnrFront"
-          value={teest.antragnrFront}
-          onChange={(e) =>
-            setTeest((prev) => ({
-              ...prev,
-              antragnrFront: Number(e.target.value),
-            }))
-          }
-        />
-        <input
-          type="text"
-          placeholder="statusFront"
-          value={teest.statusFront}
-          onChange={(e) =>
-            setTeest((prev) => ({
-              ...prev,
-              statusFront: Number(e.target.value),
-            }))
-          }
-        />
-        <input
-          type="text"
-          placeholder="statusTxtFront"
-          value={teest.statusTxtFront}
-          onChange={(e) =>
-            setTeest((prev) => ({
-              ...prev,
-              statusTxtFront: e.target.value,
-            }))
-          }
-        />
-      </form>
-      {/* end of testing code */}
+      <div className="hidden">
+        <button onClick={handleFakeClick} className="p-4 border-2">
+          FAKE
+        </button>
+        <button onClick={handleClearClick} className="p-4 border-2">
+          CLEAR CART
+        </button>
+        <form>
+          <input
+            type="text"
+            placeholder="antragnrFront"
+            value={teest.antragnrFront}
+            onChange={(e) =>
+              setTeest((prev) => ({
+                ...prev,
+                antragnrFront: Number(e.target.value),
+              }))
+            }
+          />
+          <input
+            type="text"
+            placeholder="statusFront"
+            value={teest.statusFront}
+            onChange={(e) =>
+              setTeest((prev) => ({
+                ...prev,
+                statusFront: Number(e.target.value),
+              }))
+            }
+          />
+          <input
+            type="text"
+            placeholder="statusTxtFront"
+            value={teest.statusTxtFront}
+            onChange={(e) =>
+              setTeest((prev) => ({
+                ...prev,
+                statusTxtFront: e.target.value,
+              }))
+            }
+          />
+        </form>
+        {/* end of testing code */}
+      </div>
       <div className="max-w-[1280px] mx-auto p-[16px]">
         <PageTitle title="Albis Leasing" />
         <SectionCartItems

@@ -1,0 +1,22 @@
+
+
+<style>
+#ah-cart-redirect {
+    {% if cart.total_price < 50000 %}
+        display: none;
+    {%  endif %}
+}
+</style>
+
+<div id="ah-cart-redirect">
+    <h3>Albis Leasing</h3>
+    <div>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed di</div>
+    <a class="button full-width" href="https://{{ shop.permanent_domain }}/pages/albis-leasing">👉 Jetzt Leasen</a>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Albis Leasing",
+  "target": "section"
+}
+{% endschema %}
