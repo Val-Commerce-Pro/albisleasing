@@ -18,22 +18,17 @@ export const Switch = ({
   return (
     <div className={styles.switchContainer}>
       {label && <Label label={label} />}
-      <div className={styles.toggleSwitch}>
-        <span className={styles.toggleTextOff}>Off</span>
+      <label className={styles.switch}>
         <input
           type="checkbox"
           name={name}
-          id={`toggle-${name}`}
+          id="toggleSwitch"
           className={styles.toggleCheckbox}
           onChange={(e) => handleOnChange(e)}
           checked={checkboxValue}
         />
-        <label className={styles.toggleLabel} htmlFor={`toggle-${name}`}>
-          <span className={styles.toggleInner}></span>
-          <span className={styles.toggleSwitch}></span>
-        </label>
-        <span className={styles.toggleTextOn}>On</span>
-      </div>
+        <span className={`${styles.slider} ${styles.round}`}></span>
+      </label>
     </div>
   );
 };

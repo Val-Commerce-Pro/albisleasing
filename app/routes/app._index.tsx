@@ -152,7 +152,7 @@ export default function Index() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.appContainer}>
       <div className={styles.formTitle}>
         <h1>Albis Leasing</h1>
         <p>Konfiguration</p>

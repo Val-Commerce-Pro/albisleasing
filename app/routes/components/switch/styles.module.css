@@ -1,51 +1,55 @@
-.switchContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.toggleSwitch {
-  display: inline-flex;
-  align-items: center;
-  font-family: sans-serif;
-}
-
-.toggleCheckbox {
-  display: none;
-}
-
-.toggleLabel {
-  display: inline-block;
+.switch {
   position: relative;
-  width: 40px;
-  height: 18px;
-  background-color: #e5113094;
-  border-radius: 50px;
-  cursor: pointer;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
 }
 
-.toggleInner {
-  display: block;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
   position: absolute;
-  left: -3px;
-  top: 1px;
-  width: 16px;
-  height: 16px;
-  background-color: #fff;
-  border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5113094;
+  transition: 0.4s;
+  border-radius: 34px;
 }
 
-/* Toggle the switch when the checkbox is checked */
-.toggleCheckbox:checked + .toggleLabel .toggleInner {
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #1ece5394;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #1ece5394;
+}
+
+input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-.toggleTextOff,
-.toggleTextOn {
-  padding: 0 5px;
+.slider.round {
+  border-radius: 34px;
 }
 
-/* Styling when toggled 'On' */
-.toggleCheckbox:checked + .toggleLabel {
-  background-color: #1ece5394;
+.slider.round:before {
+  border-radius: 50%;
 }
