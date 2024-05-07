@@ -77,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
       vertr_dok: [],
     },
   };
-  const shop = "commerce-albis-leasing.myshopify.com";
+  const shop = "helge-test.myshopify.com";
 
   try {
     // const newAntragDetails: GetAntragDetails | JsonRpcErrorResponse =
