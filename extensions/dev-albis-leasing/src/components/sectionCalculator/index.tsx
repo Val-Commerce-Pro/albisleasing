@@ -5,6 +5,7 @@ import { PluginConfig } from "../../types/pluginConfig";
 import { Box } from "../box";
 import { Select } from "../select";
 import { TextField } from "../textfield";
+import { formatDecimalNumber } from "../../utils/formatValues";
 
 type SectionCalculatorProps = {
   calcFormData: CalcData;
@@ -80,11 +81,13 @@ export const SectionCalculator = ({
         <TextField
           name="finanzierungsbetragNetto"
           label="Finanzierungsbetrag (netto):"
-          type="number"
+          type="text"
           handleOnChange={handleOnChange}
           handleOnBlur={handleSave}
           handleKeyDown={handleSave}
-          textFieldValue={calcFormData.finanzierungsbetragNetto}
+          textFieldValue={formatDecimalNumber(
+            calcFormData.finanzierungsbetragNetto, //TODO: buggy
+          )}
           disabled={!kundeKannFinanzierungsbetragAndern}
         />
         <TextField
@@ -101,7 +104,7 @@ export const SectionCalculator = ({
             handleChange={handleSelectOnChange}
             name="zahlungsweise"
             label="Zahlungsweise:"
-            selectedValue={calcFormData.anzahlung}
+            selectedValue={calcFormData.zahlungsweise}
             options={zahlungsweisen.result}
             disabled={!auswahlZahlungsweiseAnzeigen}
           />

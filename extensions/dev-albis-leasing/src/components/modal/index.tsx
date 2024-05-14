@@ -98,7 +98,7 @@ export const Modal = ({
                 type="submit"
                 className="min-w-[145px] h-[48px] text-white focus:ring-1 focus:outline-none font-medium rounded-lg text-sm px-[20px] py-[10px] text-center bg-[#1ece53] hover:bg-[#1a4d2a] focus:ring-slate-300"
               >
-                Finish
+                Beenden
               </button>
             ) : (
               <button

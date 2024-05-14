@@ -3,6 +3,7 @@ import { LeasingRate, Rate } from "../../types/albisMethods";
 import { ShoppingCart } from "../../types/cartTypes";
 import { CalcData } from "../../types/localStorage";
 import { Box } from "../box";
+import { ImForward } from "react-icons/im";
 
 type SectionLeasingRatesProps = {
   leasingValue?: ShoppingCart["total_price"];
@@ -78,6 +79,13 @@ export const SectionLeasingRates = ({
                   onClick={() => handleClickRateOpt(itemRate)}
                 >
                   <td className="px-[24px] py-[16px] whitespace-nowrap  text-gray-900 rounded-bl-lg">
+                    <button
+                      className="text-white font-bold bg-orange-400 mr-[10px] rounded-md p-[12px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+                      type="button"
+                      onClick={() => handleClickRateOpt(itemRate)}
+                    >
+                      <ImForward />
+                    </button>
                     {itemRate.laufzeit} Monate
                   </td>
                   <td className="px-[24px] py-[16px] whitespace-nowrap text-gray-900">

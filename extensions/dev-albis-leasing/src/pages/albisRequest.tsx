@@ -165,6 +165,13 @@ export const AlbisRequest = ({
           </div>
           <div className="flex justify-between items-center">
             <button
+              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[150px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
+              onClick={() => navigate("/pages/albis-leasing")}
+              type="button"
+            >
+              Zurück
+            </button>
+            <button
               onClick={() => openModal()}
               type="button"
               data-modal-target="static-modal"
@@ -174,13 +181,6 @@ export const AlbisRequest = ({
               disabled={!isSendenBtnEnable()}
             >
               Senden
-            </button>
-            <button
-              className="text-white font-bold bg-orange-400 rounded-md p-[12px] w-[150px] hover:bg-orange-300 disabled:bg-gray-300 disabled:pointer-events-none"
-              onClick={() => navigate("/pages/albis-leasing")}
-              type="button"
-            >
-              Zurück
             </button>
           </div>
           {isModalOpen && (
