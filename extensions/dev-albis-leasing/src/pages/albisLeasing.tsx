@@ -120,7 +120,6 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
 
   const handleFakeClick = async () => {
     const body = JSON.stringify({ ...teest });
-    console.log("teest", teest);
     const response = await fetch(`${baseServerUrl}/api/checkADFake`, {
       method: "POST",
       body,
@@ -129,13 +128,11 @@ const AlbisLeasing = ({ cartData, pluginConfData }: AlbisLeasingProps) => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    console.log("handleFakeClick", response);
     const data = await response.json();
     return data;
   };
   const handleClearClick = async () => {
-    const clearCartDa = await clearCartData();
-    console.log("handleClearClick", clearCartDa);
+    await clearCartData();
   };
 
   return (

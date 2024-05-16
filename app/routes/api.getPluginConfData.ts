@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getPluginConfToFrontStore } from "./models/pluginConfig.server";
+import { getPluginConfToFrontStore } from "~/models/pluginConfig.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const requestedURL = new URL(request.url);

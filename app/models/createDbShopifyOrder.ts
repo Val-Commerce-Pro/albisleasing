@@ -1,5 +1,5 @@
 import type { AntragDetails, ShopifyOrders } from "@prisma/client";
-import db from "../../db.server";
+import db from "../db.server";
 
 export async function createDbShopifyOrder(
   antragnr: AntragDetails["antragnr"],

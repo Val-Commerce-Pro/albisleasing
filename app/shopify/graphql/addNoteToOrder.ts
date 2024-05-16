@@ -1,4 +1,4 @@
-import { appendUniqueNote } from "~/routes/utils/formatData";
+import { appendUniqueNote } from "~/utils/formatData";
 import { getGraphqlClient } from "./getGraphqlClient";
 
 type OrderData = {

@@ -1,15 +1,15 @@
 import type { AntragDetails } from "@prisma/client";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { updateAntragDetails } from "./models/antragDetails";
-import { getShopifyOrders } from "./models/createDbShopifyOrder";
-import { addNoteToOrder } from "./shopify/graphql/addNoteToOrder";
-import { cancelOrder } from "./shopify/graphql/orderCancel";
-import { orderMarkAsPaid } from "./shopify/graphql/orderMarkAsPaid";
-import type { GetAntragDetails, JsonRpcErrorResponse } from "./types/methods";
-import { isJsonRpcErrorResponse } from "./utils/formatData";
-import { getAlbisMethodsData } from "./utils/getAlbisMethodsData";
-import { checkAntragStatus, getCurrentFormattedTime } from "./utils/helpers";
+import { updateAntragDetails } from "~/models/antragDetails";
+import { getShopifyOrders } from "~/models/createDbShopifyOrder";
+import { addNoteToOrder } from "~/shopify/graphql/addNoteToOrder";
+import { cancelOrder } from "~/shopify/graphql/orderCancel";
+import { orderMarkAsPaid } from "~/shopify/graphql/orderMarkAsPaid";
+import { isJsonRpcErrorResponse } from "~/utils/formatData";
+import { getAlbisMethodsData } from "~/utils/getAlbisMethodsData";
+import { checkAntragStatus, getCurrentFormattedTime } from "~/utils/helpers";
+import type { GetAntragDetails, JsonRpcErrorResponse } from "../types/methods";
 
 type CheckAntrageDetailsBody = {
   shop: string;
@@ -19,7 +19,6 @@ type CheckAntrageDetailsBody = {
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
   const { shop, antragnrData }: CheckAntrageDetailsBody = data;
-  console.log("CheckAntragDetails route called", data);
   try {
     const newAntragDetails: GetAntragDetails | JsonRpcErrorResponse =
       await getAlbisMethodsData({
@@ -50,9 +49,7 @@ export const action: ActionFunction = async ({ request }) => {
     const checkDates = antragnrData.lastCheckAt
       ? JSON.parse(antragnrData.lastCheckAt)
       : "";
-    console.log("checkDates", checkDates);
     const newLastCheckAt = [...checkDates, getCurrentFormattedTime()];
-    console.log("newLastCheckAt", newLastCheckAt);
     if (!statusData.isStatusFinish) {
       await updateAntragDetails({
         antragnr: result.antragnr,
@@ -96,7 +93,6 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-    console.log("newNote", statusData.statusNote);
     await addNoteToOrder(shop, shopifyOrders.orderId, statusData.statusNote);
 
     switch (statusData.action) {
@@ -121,10 +117,10 @@ export const action: ActionFunction = async ({ request }) => {
         break;
 
       default:
-        console.log("No Action found");
+        console.error("No Action found");
         break;
     }
-    console.log("CheckAntragDetails Final func");
+
     return json(
       {
         antragnr: result.antragnr,

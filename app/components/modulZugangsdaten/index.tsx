@@ -1,6 +1,6 @@
 import { Form, useSubmit } from "@remix-run/react";
 import { useState } from "react";
-import type { ModulZugangsdatenData } from "~/routes/types/pluginConfigurator";
+import type { ModulZugangsdatenData } from "~/types/pluginConfigurator";
 import { Divider } from "../divider";
 import { TextField } from "../textfield";
 import styles from "./styles.module.css";

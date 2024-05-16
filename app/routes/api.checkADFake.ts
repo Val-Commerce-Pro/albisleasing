@@ -1,19 +1,11 @@
-// import type { AntragDetails } from "@prisma/client";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { updateAntragDetails } from "./models/antragDetails";
-import { getShopifyOrders } from "./models/createDbShopifyOrder";
-import { addNoteToOrder } from "./shopify/graphql/addNoteToOrder";
-// import type { GetAntragDetails, JsonRpcErrorResponse } from "./types/methods";
-// import { getAlbisMethodsData } from "./utils/getAlbisMethodsData";
-import { cancelOrder } from "./shopify/graphql/orderCancel";
-import { orderMarkAsPaid } from "./shopify/graphql/orderMarkAsPaid";
-import { checkAntragStatus, getCurrentFormattedTime } from "./utils/helpers";
-
-// type CheckAntrageDetailsBody = {
-//   shop: string;
-//   antragnrData: AntragDetails;
-// };
+import { updateAntragDetails } from "~/models/antragDetails";
+import { getShopifyOrders } from "~/models/createDbShopifyOrder";
+import { addNoteToOrder } from "~/shopify/graphql/addNoteToOrder";
+import { cancelOrder } from "~/shopify/graphql/orderCancel";
+import { orderMarkAsPaid } from "~/shopify/graphql/orderMarkAsPaid";
+import { checkAntragStatus, getCurrentFormattedTime } from "~/utils/helpers";
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();
@@ -23,7 +15,6 @@ export const action: ActionFunction = async ({ request }) => {
     statusTxtFront,
   }: { antragnrFront: number; statusFront: number; statusTxtFront: string } =
     data;
-  console.log("CheckADFAke route called");
   const antragnrData = {
     id: 1,
     jsonrpc: "2.0",
@@ -80,21 +71,6 @@ export const action: ActionFunction = async ({ request }) => {
   const shop = "helge-test.myshopify.com";
 
   try {
-    // const newAntragDetails: GetAntragDetails | JsonRpcErrorResponse =
-    //   await getAlbisMethodsData({
-    //     method: "getAntragDetails",
-    //     shop,
-    //     antragnr: antragnrData.antragnr,
-    //   });
-
-    // if (isJsonRpcErrorResponse(newAntragDetails)) {
-    //   console.error("RPC Error AntragDetails:", newAntragDetails);
-    //   return json(newAntragDetails, {
-    //     headers: {
-    //       "Access-Control-Allow-Origin": "*",
-    //     },
-    //   });
-    // }
     const shopifyOrders = await getShopifyOrders(antragnrData.result.antragnr);
     if (!shopifyOrders) {
       return new Response("Error processing shopify Orders Data", {
@@ -107,9 +83,7 @@ export const action: ActionFunction = async ({ request }) => {
     const { result } = antragnrData;
     const statusData = checkAntragStatus(statusFront, statusTxtFront);
     const checkDates = ["mock Data"];
-    console.log("checkDates", checkDates);
     const newLastCheckAt = [...checkDates, getCurrentFormattedTime()];
-    console.log("newLastCheckAt", newLastCheckAt);
     if (!statusData.isStatusFinish) {
       await updateAntragDetails({
         antragnr: result.antragnr,
@@ -153,38 +127,34 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
-    console.log("newNote", statusData.statusNote);
     await addNoteToOrder(shop, shopifyOrders.orderId, statusData.statusNote);
 
     switch (statusData.action) {
       case "Cancel":
-        const cancellingOrder = await cancelOrder(shop, shopifyOrders.orderId, {
+        await cancelOrder(shop, shopifyOrders.orderId, {
           notifyCustomer: true,
           reason: "OTHER",
           refund: false,
           restock: true,
         });
-        console.log("cancelledOrder", cancellingOrder);
         break;
       case "Paid":
-        const paidOrder = await orderMarkAsPaid(shop, shopifyOrders.orderId);
-        console.log("orderMarkAsPaid", paidOrder);
+        await orderMarkAsPaid(shop, shopifyOrders.orderId);
         break;
       case "Refund":
-        const refundedOrder = await cancelOrder(shop, shopifyOrders.orderId, {
+        await cancelOrder(shop, shopifyOrders.orderId, {
           notifyCustomer: true,
           reason: "OTHER",
           refund: true,
           restock: true,
         });
-        console.log("refundedOrder", refundedOrder);
+
         break;
 
       default:
-        console.log("No Action found");
+        console.error("No Action found");
         break;
     }
-    console.log("CheckAntragDetails FAKE Final func");
 
     return json(
       {

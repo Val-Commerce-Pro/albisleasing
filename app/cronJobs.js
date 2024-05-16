@@ -3,13 +3,11 @@ import schedule from "node-schedule";
 
 export function scheduleAntragCheck(antragnrData, shop) {
   let job = null;
-  console.log(`scheduleAntragCheck called`);
 
   async function performCheck() {
     console.log(`Checking details for Antrag ${antragnrData.antragnr}`);
     try {
       const response = await fetch(
-        // `http://localhost:3000/api/checkAntragDetails`,
         `https://albisleasingapp.cpro-server.de/api/checkAntragDetails`,
         {
           method: "POST",
@@ -18,7 +16,6 @@ export function scheduleAntragCheck(antragnrData, shop) {
         },
       );
       const data = await response.json();
-      console.log("API call successful:", data);
 
       if (data.complete) {
         job.cancel();

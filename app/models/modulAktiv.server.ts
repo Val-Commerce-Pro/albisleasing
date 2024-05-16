@@ -1,5 +1,5 @@
-import db from "../../db.server";
-import { UpdateOrCreateModulAktivServer } from "./types";
+import db from "../db.server";
+import type { UpdateOrCreateModulAktivServer } from "./types";
 
 async function createModulAktiv(
   modulAktivData: UpdateOrCreateModulAktivServer,

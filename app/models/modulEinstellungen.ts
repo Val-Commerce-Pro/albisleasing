@@ -1,5 +1,5 @@
-import type { ModulEinstellungenData } from "~/routes/types/pluginConfigurator";
-import db from "../../db.server";
+import type { ModulEinstellungenData } from "~/types/pluginConfigurator";
+import db from "../db.server";
 import { getModulZugangsdaten } from "./modulZugangsdaten";
 
 async function updateModulEinstellungen(

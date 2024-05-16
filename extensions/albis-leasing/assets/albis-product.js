@@ -102,7 +102,6 @@ async function getLeasingRateTable() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // const secureUrl = document.getElementById("ah-secure-url").textContent;
   const addProductAndRedirect = document.getElementById(
     "addProductAndRedirect",
   );

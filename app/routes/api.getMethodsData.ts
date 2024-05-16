@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import {
   getAlbisMethodsData,
   type GetMethodsDataRequest,
-} from "./utils/getAlbisMethodsData";
+} from "~/utils/getAlbisMethodsData";
 
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.json();

@@ -1,16 +1,3 @@
-// const selectedStatus = {
-//   "505": "Warten auf Entscheidungsunterlagen",
-//   "510": "Warten auf Entscheidungsunterlagen",
-//   "930": "Antrag abgelehnt",
-//   "970": "Antrag genehmigt. Bitte Unterlagen einsenden.",
-//   "971": "Vertragsunterlagen unvollständig.",
-//   "972": "Vertragsunterlagen unvollständig.",
-//   "976": "Prüfung/Abrechnung",
-//   "978": "Prüfung/Abrechnung",
-//   "980": "abgerechnet",
-//   "996": "wird storniert",
-//   "997": "storniert",
-
 export function getCurrentFormattedTime(): string {
   const date = new Date();
   const options: Intl.DateTimeFormatOptions = {

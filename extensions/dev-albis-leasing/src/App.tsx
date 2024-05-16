@@ -12,8 +12,7 @@ function App() {
   // const cartData = mockCartItems;
   const pluginConfData = useGetPluginConfData();
 
-  // console.log("pluginConfData", pluginConfData);
-  // console.log("cartData", cartData);
+  console.log("cartData", cartData);
 
   return (
     <Router>

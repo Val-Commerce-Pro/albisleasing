@@ -3,7 +3,7 @@ import "@shopify/shopify-app-remix/adapters/node";
 
 import { LATEST_API_VERSION } from "@shopify/shopify-app-remix";
 
-import prisma from "../../../db.server";
+import prisma from "../../db.server";
 
 const appHostName = process.env.SHOPIFY_APP_URL;
 

@@ -1,5 +1,5 @@
-import type { ModulZugangsdatenData } from "~/routes/types/pluginConfigurator";
-import db from "../../db.server";
+import type { ModulZugangsdatenData } from "~/types/pluginConfigurator";
+import db from "../db.server";
 
 async function createModulZugangsdaten(
   modulAktivId: number,

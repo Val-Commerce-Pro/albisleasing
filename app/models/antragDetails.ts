@@ -1,5 +1,5 @@
 import type { AntragDetails } from "@prisma/client";
-import db from "../../db.server";
+import db from "../db.server";
 import type { AntragDetailsData } from "./types";
 
 export async function createAntragDetails(antragData: AntragDetailsData) {
@@ -27,7 +27,6 @@ export async function updateAntragDetails(
         ...antragData,
       },
     });
-    console.log("antragDetailsData Partial", antragDetailsData);
     return antragDetailsData;
   } catch (error) {
     console.error("Failed to update AntragDetails", error);

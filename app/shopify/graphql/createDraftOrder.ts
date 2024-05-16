@@ -55,9 +55,6 @@ export async function createDraftOrder(shop: string, input: DraftOrderInput) {
           email: input.email,
           taxExempt: true,
           tags: "Albis Leasing",
-          // customAttributes: [
-          //   { key: "name", value: input.customAttributes[0].value },
-          // ],
           shippingAddress: {
             address1: input.shippingAddress?.address1,
             city: input.shippingAddress?.city,

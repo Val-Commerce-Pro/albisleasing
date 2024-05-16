@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import type { OptionsMethodData } from "~/routes/utils/formatData";
+import type { OptionsMethodData } from "~/utils/formatData";
 import { Label } from "../label";
 import styles from "./styles.module.css";
 

@@ -1,22 +1,22 @@
 import type { AntragDetails } from "@prisma/client";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { createAntragDetails } from "~/models/antragDetails";
+import { createDbShopifyOrder } from "~/models/createDbShopifyOrder";
+import type { AntragDetailsData } from "~/models/types";
+import { completeDraftOrder } from "~/shopify/graphql/completeDraftOrder";
+import type { DraftOrderInput } from "~/shopify/graphql/createDraftOrder";
+import { createDraftOrder } from "~/shopify/graphql/createDraftOrder";
+import { isJsonRpcErrorResponse } from "~/utils/formatData";
+import { getAlbisMethodsData } from "~/utils/getAlbisMethodsData";
+import { getCurrentFormattedTime } from "~/utils/helpers";
 import { scheduleAntragCheck } from "../cronJobs";
-import { createAntragDetails } from "./models/antragDetails";
-import { createDbShopifyOrder } from "./models/createDbShopifyOrder";
-import type { AntragDetailsData } from "./models/types";
-import { completeDraftOrder } from "./shopify/graphql/completeDraftOrder";
-import type { DraftOrderInput } from "./shopify/graphql/createDraftOrder";
-import { createDraftOrder } from "./shopify/graphql/createDraftOrder";
-import type { CreateAlbisAppAndOrder } from "./types/createAlbisAppAndOrder";
+import type { CreateAlbisAppAndOrder } from "../types/createAlbisAppAndOrder";
 import type {
   GetAntragDetails,
   GetStelleAntrag,
   JsonRpcErrorResponse,
-} from "./types/methods";
-import { isJsonRpcErrorResponse } from "./utils/formatData";
-import { getAlbisMethodsData } from "./utils/getAlbisMethodsData";
-import { getCurrentFormattedTime } from "./utils/helpers";
+} from "../types/methods";
 
 type DraftOrderResponse = {
   draftOrderCreate: {
@@ -56,6 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
         },
       });
     }
+
     const newAntragDetails: GetAntragDetails | JsonRpcErrorResponse =
       await getAlbisMethodsData({
         method: "getAntragDetails",
@@ -107,7 +108,6 @@ export const action: ActionFunction = async ({ request }) => {
       phone: result.ln_telefon,
       tags: "Albis Leasing",
       taxExempt: true,
-      // visibleToCustomer: true,
       billingAddress: {
         address1: result.ln_strasse,
         city: result.ln_ort,

@@ -5,8 +5,8 @@ import { useState } from "react";
 import type {
   ModulEinstellungenData,
   PluginConfData,
-} from "~/routes/types/pluginConfigurator";
-import { getOptionsMethodData } from "~/routes/utils/formatData";
+} from "~/types/pluginConfigurator";
+import { getOptionsMethodData } from "~/utils/formatData";
 import { Divider } from "../divider";
 import { Select } from "../select";
 import { Switch } from "../switch";

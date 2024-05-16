@@ -3,25 +3,25 @@ import { useLoaderData } from "@remix-run/react";
 
 import { authenticate } from "../shopify.server";
 
-import { Divider } from "./components/divider";
-import { ModulAktiv } from "./components/modulAktiv";
-import { ModulEinstellungen } from "./components/modulEinstellungen";
-import { ModulZugangsdaten } from "./components/modulZugangsdaten";
-import { updateOrCreateModulZugangsdaten } from "./models/modulZugangsdaten";
+import { Divider } from "../components/divider";
+import { ModulAktiv } from "../components/modulAktiv";
+import { ModulEinstellungen } from "../components/modulEinstellungen";
+import { ModulZugangsdaten } from "../components/modulZugangsdaten";
 import styles from "./styles/appStyles.module.css";
 
-import { updateOrCreateModulAktiv } from "./models/modulAktiv.server";
-import { updateOrCreateModulEinstellungen } from "./models/modulEinstellungen";
-import { getPluginConf } from "./models/pluginConfig.server";
+import { updateOrCreateModulAktiv } from "~/models/modulAktiv.server";
+import { updateOrCreateModulEinstellungen } from "~/models/modulEinstellungen";
+import { updateOrCreateModulZugangsdaten } from "~/models/modulZugangsdaten";
+import { getPluginConf } from "~/models/pluginConfig.server";
+import { formatData } from "~/utils/formatData";
+import { getAllMethodData } from "~/utils/getAlbisMethodsData";
+import { getLoaderResponse } from "~/utils/getLoaderResponseObj";
 import type {
   ActionZugangsdaten,
   ModulEinstellungenData,
   ModulZugangsdatenData,
   PluginConfData,
-} from "./types/pluginConfigurator";
-import { formatData } from "./utils/formatData";
-import { getAllMethodData } from "./utils/getAlbisMethodsData";
-import { getLoaderResponse } from "./utils/getLoaderResponseObj";
+} from "../types/pluginConfigurator";
 
 export const action: ActionFunction = async ({
   request,
@@ -142,7 +142,6 @@ export default function Index() {
   const loaderData = useLoaderData<PluginConfData>();
   const { modulAktiv, modulEinstellungen, modulZugangsdaten, methodsData } =
     loaderData;
-  // console.log("loaderData", loaderData);
 
   const { apiLink, benutzer, isCredentialsValid, passwort } = modulZugangsdaten;
   const credentials = {
