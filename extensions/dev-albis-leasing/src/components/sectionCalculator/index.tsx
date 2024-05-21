@@ -28,6 +28,11 @@ export const SectionCalculator = ({
 }: SectionCalculatorProps) => {
   useEffect(() => {
     handleSave();
+    updateCalcFormData({
+      finanzierungsbetragNetto: formatDecimalNumber(
+        calcFormData.finanzierungsbetragNetto,
+      ),
+    });
   }, []);
 
   function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
