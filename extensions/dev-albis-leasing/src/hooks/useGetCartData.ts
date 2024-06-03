@@ -41,7 +41,6 @@ export const useGetCartData = () => {
             line_price: Math.round((item.line_price = item.line_price / 1.19)),
           })),
         };
-        console.log("data", data, "netCartData", netCartData);
         const formattedData = shoppingCartSchema.parse(netCartData);
         setCartData(formattedData);
       })
