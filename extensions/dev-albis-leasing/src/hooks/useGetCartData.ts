@@ -33,7 +33,16 @@ export const useGetCartData = () => {
     fetch("/cart.js")
       .then((response) => response.json())
       .then((data) => {
-        const formattedData = shoppingCartSchema.parse(data);
+        const netCartData = {
+          ...data,
+          total_price: Math.round(data.total_price / 1.19),
+          items: data.items.map((item: any) => ({
+            ...item,
+            line_price: Math.round((item.line_price = item.line_price / 1.19)),
+          })),
+        };
+        console.log("data", data, "netCartData", netCartData);
+        const formattedData = shoppingCartSchema.parse(netCartData);
         setCartData(formattedData);
       })
       .catch((error) => console.error("Error fetching cart data:", error));

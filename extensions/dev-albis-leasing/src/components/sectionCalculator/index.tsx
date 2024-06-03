@@ -90,9 +90,7 @@ export const SectionCalculator = ({
           handleOnChange={handleOnChange}
           handleOnBlur={handleSave}
           handleKeyDown={handleSave}
-          textFieldValue={formatDecimalNumber(
-            calcFormData.finanzierungsbetragNetto, //TODO: buggy
-          )}
+          textFieldValue={calcFormData.finanzierungsbetragNetto}
           disabled={!kundeKannFinanzierungsbetragAndern}
         />
         <TextField

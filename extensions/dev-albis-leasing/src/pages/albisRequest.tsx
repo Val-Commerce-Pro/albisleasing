@@ -49,7 +49,7 @@ export const AlbisRequest = ({
   const closeModal = () => setIsModalOpen(false);
 
   const isSendenBtnEnable = () => {
-    const { companyInfo, managerInfo, datenschutz } = state;
+    const { companyInfo, managerInfo, datenschutz } = state; //TODO: make GF fields optional
     const allFieldsFilled = Object.values({
       ...companyInfo,
       ...managerInfo,
@@ -68,7 +68,7 @@ export const AlbisRequest = ({
     );
 
     const formData: StelleAntrag = {
-      objekt: pluginConfData.modulEinstellungen.produktgruppeLabel,
+      objekt: pluginConfData.modulEinstellungen.produktgruppeLabel, //TODO: add shopify order here
       kaufpreis: formatDecimalNumber(
         localStorageJSON.calcData.finanzierungsbetragNetto,
       ),
@@ -157,10 +157,20 @@ export const AlbisRequest = ({
               className="mr-4"
             />
             <label htmlFor="datenschutz" className="text-sm text-gray-600">
-              Die Datenschutzbestimmungen habe ich zur Kenntnis genommen und bin
-              einverstanden, dass meine Daten an die ALBIS Leasing Gruppe
-              weitergegeben und gemäß der Datenschutzerklärung der ALBIS Leasing
-              Gruppe dort verarbeitet werden.
+              Ich willige ein, dass die ALBIS Leasing Gruppe meine
+              personenbezogenen Daten zu Zwecken der Bonitätsprüfung im Rahmen
+              der (zumindest teilweise) automatisierten Kreditentscheidung
+              verarbeitet. Hierzu können meine personenbezogenen Daten an
+              Auskunfteien (Creditreform Hamburg von der Decken & Wall KG,
+              Schufa Holding AG, und/oder infoscore Consumer Data GmbH)
+              weitergegeben und von diesen verarbeitet werden. Näheres hierzu
+              regelt die{" "}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://www.albis-leasing.de/datenschutz"
+              >
+                Datenschutzerklärung der ALBIS Leasing Gruppe.
+              </a>
             </label>
           </div>
           <div className="flex justify-between items-center">

@@ -46,7 +46,7 @@ const getPluginConfData = async () => {
 const getAlbisMethodsData = async (method, werte) => {
   try {
     const shop = document.getElementById("ah-shop-domain").textContent;
-    // const shop = "commerce-albis-leasing.myshopify.com";
+    // const shop = "helge-test.myshopify.com";
     const response = await fetch(
       `https://albisleasingapp.cpro-server.de/api/getMethodsData`,
       {
@@ -74,7 +74,9 @@ function toCurrency(rate) {
 async function getLeasingRateTable() {
   const pluginConfData = await getPluginConfData();
 
-  const productPrice = document.getElementById("ah-product-price").textContent;
+  const productPrice = Math.round(
+    parseInt(document.getElementById("ah-product-price").textContent) / 1.19,
+  );
 
   const productValues = {
     kaufpreis: toCurrency(productPrice),
