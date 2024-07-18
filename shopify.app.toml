@@ -1,8 +1,8 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "2adee1cd244a0aaf0ae45be8f4efac30"
-name = "albisleasingapp"
-handle = "albisleasingapp"
+client_id = "2ff7d621bb5b99a479b6ffa32b6c08c5"
+name = "CP - Albis Leasing"
+handle = "albis-leasing-1"
 application_url = "https://provision-prayer-nc-egyptian.trycloudflare.com"
 embedded = true
 

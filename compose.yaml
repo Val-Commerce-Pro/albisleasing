@@ -7,8 +7,8 @@ services:
       SHOPIFY_APP_URL: "https://albisleasingapp.cpro-server.de"
       SHOPIFY_SHOP: "helge-test.myshopify.com"
       HOST: "0.0.0.0"
-      SHOPIFY_API_KEY: "2adee1cd244a0aaf0ae45be8f4efac30"
-      SHOPIFY_API_SECRET: "fb19f41e7dab116f8979ad73f2e4b1f8"
+      SHOPIFY_API_KEY: "2ff7d621bb5b99a479b6ffa32b6c08c5"
+      SHOPIFY_API_SECRET: "cc7bf23097597b3ab1a075e5a746877e"
       SCOPES: "write_products,write_orders,read_orders"
       DATABASE_URL: "mysql://root:1WrPZqlCnk4CHbpd31cq@albisleasingapp_db:3306/albisleasingapp" # TODO: change me for new instance
     labels:
